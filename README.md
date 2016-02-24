@@ -1,4 +1,5 @@
 # SectionedExpandableGridRecyclerView-Example
+![alt tag](./segrv.gif)
 <p>This example project is an attempt at a simple implementation of sectioned, expandable, grid RecyclerView</p> 
 
 <p>I have used <b>GridLayoutManager</b> to achieve the fuctionality.
@@ -7,3 +8,4 @@
 class gets the data, puts it in required format and passes it to the <a href= ./app/src/main/java/com/fivido/sectionedexpandablegridlayout/adapters/SectionedExpandableGridAdapter.java>SectionedExpandableGridAdapter</a>
 </p>
 <p>Helper class created allows the addition/removal of a whole section altogether and also provides with the facility to add/remove individual items from an existing section</p>
+
