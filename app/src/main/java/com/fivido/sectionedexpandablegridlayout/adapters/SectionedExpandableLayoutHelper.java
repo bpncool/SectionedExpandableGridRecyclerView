@@ -27,6 +27,9 @@ public class SectionedExpandableLayoutHelper implements SectionStateChangeListen
     //adapter
     private SectionedExpandableGridAdapter mSectionedExpandableGridAdapter;
 
+    //recycler view
+    RecyclerView mRecyclerView;
+
     public SectionedExpandableLayoutHelper(Context context, RecyclerView recyclerView, ItemClickListener itemClickListener,
                                            int gridSpanCount) {
 
@@ -36,6 +39,8 @@ public class SectionedExpandableLayoutHelper implements SectionStateChangeListen
         mSectionedExpandableGridAdapter = new SectionedExpandableGridAdapter(context, mDataArrayList,
                 gridLayoutManager, itemClickListener, this);
         recyclerView.setAdapter(mSectionedExpandableGridAdapter);
+
+        mRecyclerView = recyclerView;
     }
 
     public void notifyDataSetChanged() {
@@ -75,7 +80,9 @@ public class SectionedExpandableLayoutHelper implements SectionStateChangeListen
 
     @Override
     public void onSectionStateChanged(Section section, boolean isOpen) {
-        section.isExpanded = isOpen;
-        notifyDataSetChanged();
+        if (!mRecyclerView.isComputingLayout()) {
+            section.isExpanded = isOpen;
+            notifyDataSetChanged();
+        }
     }
 }
