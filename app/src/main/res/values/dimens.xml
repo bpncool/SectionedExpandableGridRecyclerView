@@ -7,4 +7,6 @@
     <dimen name="section_text_size">20sp</dimen>
     <dimen name="item_height">100dp</dimen>
     <dimen name="item_margin">3dp</dimen>
+    
+    <dimen name="section_text_padding_left">15dp</dimen>
 </resources>
