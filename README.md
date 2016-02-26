@@ -1,6 +1,6 @@
 [![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-SectionedExpandableGridRecyclerView-green.svg?style=true)](https://android-arsenal.com/details/3/3193)
 
-# SectionedExpandableGridRecyclerView-Example
+# SectionedExpandableGridRecyclerView
 ![alt tag](./segrv.gif)
 <p>This example project is an attempt at a simple implementation of sectioned, expandable, grid RecyclerView</p> 
 
