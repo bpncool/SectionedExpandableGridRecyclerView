@@ -2,6 +2,7 @@
     <string name="app_name">SectionedExpandableGridLayout</string>
 
     <string name="activity_label">Example</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_add">Add</string>
+    <string name="action_remove">Remove</string>
     <string name="image_button_content_description">Change state of section</string>
 </resources>

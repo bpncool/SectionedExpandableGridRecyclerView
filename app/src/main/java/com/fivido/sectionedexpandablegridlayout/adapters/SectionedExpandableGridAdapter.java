@@ -31,8 +31,9 @@ public class SectionedExpandableGridAdapter extends RecyclerView.Adapter<Section
     private final SectionStateChangeListener mSectionStateChangeListener;
 
     //view type
-    private static final int VIEW_TYPE_SECTION = R.layout.layout_section;
-    private static final int VIEW_TYPE_ITEM = R.layout.layout_item; //TODO : change this
+    //made public for animation
+    public static final int VIEW_TYPE_SECTION = R.layout.layout_section;
+    public static final int VIEW_TYPE_ITEM = R.layout.layout_item; //TODO : change this
 
     public SectionedExpandableGridAdapter(Context context, ArrayList<Object> dataArrayList,
                                           final GridLayoutManager gridLayoutManager, ItemClickListener itemClickListener,
@@ -56,17 +57,17 @@ public class SectionedExpandableGridAdapter extends RecyclerView.Adapter<Section
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(mContext).inflate(viewType, parent, false), viewType);
+        return new ViewHolder(LayoutInflater.from(mContext).inflate(viewType, parent, false), viewType, mSectionStateChangeListener);
     }
 
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        switch (holder.viewType) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
+        switch (holder.getItemViewType()) {
             case VIEW_TYPE_ITEM :
                 final Item item = (Item) mDataArrayList.get(position);
                 holder.itemTextView.setText(item.getName());
-                holder.view.setOnClickListener(new View.OnClickListener() {
+                holder.itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         mItemClickListener.itemClicked(item);
@@ -83,12 +84,6 @@ public class SectionedExpandableGridAdapter extends RecyclerView.Adapter<Section
                     }
                 });
                 holder.sectionToggleButton.setChecked(section.isExpanded);
-                holder.sectionToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        mSectionStateChangeListener.onSectionStateChanged(section, isChecked);
-                    }
-                });
                 break;
         }
     }
@@ -107,10 +102,6 @@ public class SectionedExpandableGridAdapter extends RecyclerView.Adapter<Section
 
     protected static class ViewHolder extends RecyclerView.ViewHolder {
 
-        //common
-        View view;
-        int viewType;
-
         //for section
         TextView sectionTextView;
         ToggleButton sectionToggleButton;
@@ -118,15 +109,19 @@ public class SectionedExpandableGridAdapter extends RecyclerView.Adapter<Section
         //for item
         TextView itemTextView;
 
-        public ViewHolder(View view, int viewType) {
+        public ViewHolder(View view, int viewType, final SectionStateChangeListener stateChangeListener) {
             super(view);
-            this.viewType = viewType;
-            this.view = view;
             if (viewType == VIEW_TYPE_ITEM) {
                 itemTextView = (TextView) view.findViewById(R.id.text_item);
             } else {
                 sectionTextView = (TextView) view.findViewById(R.id.text_section);
                 sectionToggleButton = (ToggleButton) view.findViewById(R.id.toggle_button_section);
+                sectionToggleButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                         stateChangeListener.onSectionStateChanged(getAdapterPosition(), isChecked);
+                    }
+                });
             }
         }
     }

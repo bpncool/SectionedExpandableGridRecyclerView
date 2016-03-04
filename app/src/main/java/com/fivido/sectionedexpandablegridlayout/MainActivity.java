@@ -74,7 +74,9 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_add) {
+            return true; //TODO : handle these
+        } else if (id == R.id.action_remove) {
             return true;
         }
 

@@ -7,5 +7,5 @@ package com.fivido.sectionedexpandablegridlayout.adapters;
  * interface to listen changes in state of sections
  */
 public interface SectionStateChangeListener {
-    void onSectionStateChanged(Section section, boolean isOpen);
+    void onSectionStateChanged(int position, boolean isChecked);
 }

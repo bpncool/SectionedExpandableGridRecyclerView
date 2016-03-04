@@ -39,10 +39,19 @@ public class SectionedExpandableLayoutHelper implements SectionStateChangeListen
         mSectionedExpandableGridAdapter = new SectionedExpandableGridAdapter(context, mDataArrayList,
                 gridLayoutManager, itemClickListener, this);
         recyclerView.setAdapter(mSectionedExpandableGridAdapter);
+        recyclerView.setItemAnimator(new ItemAnimator());
 
         mRecyclerView = recyclerView;
     }
 
+    public void notifyDataSetChanged(int sectionPosition, Section section) {
+        generateDataList();
+        if (section.isExpanded) {
+            mSectionedExpandableGridAdapter.notifyItemRangeInserted(sectionPosition+1, mSectionDataMap.get(section).size());
+        } else mSectionedExpandableGridAdapter.notifyItemRangeRemoved(sectionPosition+1, mSectionDataMap.get(section).size());
+    }
+
+    //temporary
     public void notifyDataSetChanged() {
         //TODO : handle this condition such that these functions won't be called if the recycler view is on scroll
         generateDataList();
@@ -73,16 +82,18 @@ public class SectionedExpandableLayoutHelper implements SectionStateChangeListen
         for (Map.Entry<Section, ArrayList<Item>> entry : mSectionDataMap.entrySet()) {
             Section key;
             mDataArrayList.add((key = entry.getKey()));
-            if (key.isExpanded)
+            if (key.isExpanded) {
                 mDataArrayList.addAll(entry.getValue());
+            }
         }
     }
 
     @Override
-    public void onSectionStateChanged(Section section, boolean isOpen) {
+    public void onSectionStateChanged(int position, boolean isChecked) {
         if (!mRecyclerView.isComputingLayout()) {
-            section.isExpanded = isOpen;
-            notifyDataSetChanged();
+            Section section = (Section) mDataArrayList.get(position);
+            section.isExpanded = isChecked;
+            notifyDataSetChanged(position, section);
         }
     }
 }
